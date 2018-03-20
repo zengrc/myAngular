@@ -1,0 +1,62 @@
+<table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th *ngFor="let th of tableTitles">
+              <div *ngIf="!th.sort; else sort">{{th.name}}</div>
+              <ng-template #sort>
+                <div *ngIf="checkSortStatus(th.id, 'asc'); else desc" 
+                      id='th.id' class="pointer"
+                      (click)="tableSort(th.id, 1)" >
+                  {{th.name}}&nbsp;&and;</div>
+                <ng-template #desc>
+                  <div *ngIf="checkSortStatus(th.id, 'desc'); else none" 
+                        id='th.id' class="pointer" 
+                        (click)="tableSort(th.id, 2)" >
+                    {{th.name}}&nbsp;&or;</div>
+                </ng-template>
+                <ng-template #none>
+                  <div id='th.id' class="pointer" (click)="tableSort(th.id, 0)" >
+                    {{th.name}}</div>
+                </ng-template>
+              </ng-template>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let tr of tableRows; let trIndex = index">
+          <tr>
+            <th>{{(paginationOptions.currentPage - 1) * paginationOptions.itemsPerPage + trIndex}}</th>
+            <!--
+            <td>{{app.id}}</td>
+            <td>{{app.createT}}</td>
+            <td>{{app.modifyT}}</td>
+            <td>HKD {{app.loanAmount}}</td>
+            <td>
+                <a href="javascript:;" (click)="editApplication(app.id)">Edit</a>
+                &nbsp;|&nbsp;
+                <a href="javascript:;" (click)="deleteAppbyID(app.id)">Delete</a></td>
+            -->
+            <td *ngFor="let th of tableTitles; let thIndex = index">
+                <div *ngIf="th.type == 0; else spComponent">{{tr[th.id]}}</div>
+                <ng-template #spComponent>
+                    <div><ng-template #spItemsHost></ng-template></div>
+                </ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="justify-content-center">
+        <pagination 
+          (pageChanged)="pageChanged($event)"
+          [(ngModel)]="paginationOptions.currentPage"
+          [boundaryLinks]="true" 
+          [totalItems]="paginationOptions.totalItems" 
+          [maxSize]="paginationOptions.maxSize" 
+          [rotate]="false" 
+          [itemsPerPage]="paginationOptions.itemsPerPage"
+          previousText="&lsaquo;" 
+          nextText="&rsaquo;" 
+          firstText="&laquo;" 
+          lastText="&raquo;"></pagination>
+      </div>
