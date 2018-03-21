@@ -1,0 +1,7 @@
+<ngx-simple-table
+  [tableTitles]="tableTitles"
+  [paginationOptions]="paginationOptions"
+  [tableRows]="tableRowsShown"
+  (onPageChanged)="emitWhenPageChanged($event)"
+  (onSortClicked)="emitWhenSortClicked($event)">
+</ngx-simple-table>
